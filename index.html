@@ -35,7 +35,6 @@
       overflow-x: hidden;
     }
 
-    /* ── GLOW ── */
     .glow-effect {
       position: absolute;
       top: 0;
@@ -48,7 +47,6 @@
       background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.09), transparent 65%);
     }
 
-    /* ── GRID BACKGROUND ── */
     .landing-view {
       position: relative;
       z-index: 1;
@@ -69,7 +67,6 @@
       -webkit-mask-image: radial-gradient(ellipse at top, black 5%, transparent 75%);
     }
 
-    /* ── NAVBAR ── */
     .navbar-container {
       display: flex;
       justify-content: center;
@@ -123,7 +120,6 @@
       color: var(--text-main);
     }
 
-    /* ── BUTTONS ── */
     .btn {
       padding: 0.55rem 1.2rem;
       border-radius: 100px;
@@ -155,7 +151,6 @@
       background-color: rgba(255, 255, 255, 0.08);
     }
 
-    /* ── HERO ── */
     .hero {
       text-align: center;
       padding: 7rem 1rem 5rem;
@@ -214,7 +209,6 @@
       gap: 1rem;
     }
 
-    /* ── PROJECTS SECTION ── */
     .projects-section {
       display: flex;
       flex-direction: column;
@@ -223,7 +217,6 @@
       padding: 2rem 1rem 10rem;
     }
 
-    /* ── PROJECT BLOCK ── */
     .project-block {
       width: 100%;
       max-width: 1040px;
@@ -319,10 +312,15 @@
       flex-shrink: 0;
     }
 
+    /* 
+      The three dots row. gap:7px applies between every direct child —
+      red dot, yellow dot, and the <a> tag (which wraps green dot + label).
+      So red→yellow = 7px, yellow→green = 7px. Perfectly even.
+    */
     .mac-buttons {
       display: flex;
+      align-items: center;
       gap: 7px;
-      z-index: 1;
     }
 
     .mac-dot {
@@ -330,6 +328,9 @@
       height: 12px;
       border-radius: 50%;
       opacity: 0.9;
+      flex-shrink: 0;
+      display: block;
+      /* ensure no inline spacing weirdness */
     }
 
     .mac-dot.close {
@@ -342,6 +343,49 @@
 
     .mac-dot.maximize {
       background: #28c840;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+    }
+
+    /*
+      The <a> wraps green dot + label.
+      padding: 0 so the <a> box starts exactly at the dot edge —
+      no extra gap is added between yellow and green dots.
+      The label sits 6px to the right of the dot via gap.
+    */
+    .mac-open-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      padding: 3px 5px 3px 0;
+      /* right/top/bottom padding only, left=0 */
+      margin: 0;
+      border-radius: 6px;
+      transition: background 0.2s;
+      line-height: 1;
+    }
+
+    .mac-open-link:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .mac-open-link:hover .mac-dot.maximize {
+      transform: scale(1.2);
+      box-shadow: 0 0 8px rgba(40, 200, 64, 0.7);
+    }
+
+    .mac-open-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      transition: color 0.2s;
+    }
+
+    .mac-open-link:hover .mac-open-label {
+      color: rgba(255, 255, 255, 0.65);
     }
 
     .mac-title {
@@ -352,17 +396,12 @@
       font-size: 0.8rem;
       font-weight: 500;
       white-space: nowrap;
+      pointer-events: none;
     }
 
-    /* ── THE KEY FIX: iframe sizing ── */
     .iframe-container {
       position: relative;
       width: 100%;
-      /* 
-        The CRM uses height:100% on html/body and flex layout.
-        We need to give it enough height so the internal layout resolves correctly.
-        750px is the sweet spot — tall enough to show the full layout without cutting.
-      */
       height: 750px;
       overflow: hidden;
     }
@@ -372,15 +411,9 @@
       height: 100%;
       border: none;
       display: block;
-      /* 
-        Scale the iframe content slightly to fit the mac-window width.
-        The CRM was designed for ~1280px viewport; at 1040px container
-        we scale down just enough to avoid horizontal scrollbars.
-      */
       transform-origin: top left;
     }
 
-    /* ── FOOTER ── */
     .footer {
       text-align: center;
       padding: 3rem 1rem;
@@ -389,7 +422,6 @@
       font-size: 0.8rem;
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 700px) {
       .nav-links {
         display: none;
@@ -414,22 +446,20 @@
   <div class="landing-view">
     <div class="glow-effect"></div>
 
-    <!-- NAVBAR -->
     <div class="navbar-container">
       <nav class="navbar">
         <div class="logo">
           <span class="logo-icon">✦</span> Primeyx
         </div>
         <div class="nav-links">
-          <a href="#project-1">Project 1</a>
-          <a href="#project-2">Project 2</a>
-          <a href="#project-3">Project 3</a>
+          <a href="#project-1">CRM Decks</a>
+          <a href="#project-2">Web GIS</a>
+          <a href="#project-3">Mining Dashboard</a>
         </div>
         <a href="YOUR_UPWORK_LINK_HERE" class="btn btn-primary" target="_blank">Hire Me on Upwork</a>
       </nav>
     </div>
 
-    <!-- HERO -->
     <header class="hero">
       <div class="hero-eyebrow">
         <span class="hero-eyebrow-dot"></span>
@@ -443,7 +473,6 @@
       </div>
     </header>
 
-    <!-- PROJECTS -->
     <section class="projects-section">
 
       <!-- PROJECT 1 -->
@@ -466,14 +495,16 @@
             <div class="mac-buttons">
               <div class="mac-dot close"></div>
               <div class="mac-dot minimize"></div>
-              <div class="mac-dot maximize"></div>
+              <a class="mac-open-link" href="https://atarnvandi.github.io/CardDecks-CRM/index.html" target="_blank">
+                <div class="mac-dot maximize"></div>
+                <span class="mac-open-label">Open live app ↗</span>
+              </a>
             </div>
             <div class="mac-title">CardecksCRM — Live Preview</div>
           </div>
           <div class="iframe-container">
             <iframe class="app-iframe" src="https://atarnvandi.github.io/CardDecks-CRM/index.html" scrolling="no"
-              title="CardecksCRM Live Preview">
-            </iframe>
+              title="CardecksCRM Live Preview"></iframe>
           </div>
         </div>
       </div>
@@ -483,13 +514,12 @@
         <div class="project-meta">
           <div class="project-meta-left">
             <span class="project-number">Project 02</span>
-            <span class="project-title">Data Analysis Project</span>
-            <span class="project-desc">An interactive data analysis report with charts, tables, and insight
-              panels.</span>
+            <span class="project-title">Web GIS</span>
+            <span class="project-desc">An interactive web GIS with map layers, filtering, and analysis tools.</span>
           </div>
           <div class="project-tags">
-            <span class="tag">Data Analysis</span>
-            <span class="tag">Charts</span>
+            <span class="tag">Web GIS</span>
+            <span class="tag">Leaflet</span>
           </div>
         </div>
         <div class="mac-window">
@@ -497,12 +527,15 @@
             <div class="mac-buttons">
               <div class="mac-dot close"></div>
               <div class="mac-dot minimize"></div>
-              <div class="mac-dot maximize"></div>
+              <a class="mac-open-link" href="project2.html" target="_blank">
+                <div class="mac-dot maximize"></div>
+                <span class="mac-open-label">Open live app ↗</span>
+              </a>
             </div>
-            <div class="mac-title">Data Analysis Project</div>
+            <div class="mac-title">Web GIS</div>
           </div>
           <div class="iframe-container">
-            <iframe class="app-iframe" src="project2.html" title="Data Analysis Project"></iframe>
+            <iframe class="app-iframe" src="project2.html" title="Web GIS"></iframe>
           </div>
         </div>
       </div>
@@ -512,7 +545,7 @@
         <div class="project-meta">
           <div class="project-meta-left">
             <span class="project-number">Project 03</span>
-            <span class="project-title">Data Dashboard</span>
+            <span class="project-title">Mining Dashboard</span>
             <span class="project-desc">A live metrics dashboard with KPIs, trend lines, and segment breakdowns.</span>
           </div>
           <div class="project-tags">
@@ -525,7 +558,10 @@
             <div class="mac-buttons">
               <div class="mac-dot close"></div>
               <div class="mac-dot minimize"></div>
-              <div class="mac-dot maximize"></div>
+              <a class="mac-open-link" href="project3.html" target="_blank">
+                <div class="mac-dot maximize"></div>
+                <span class="mac-open-label">Open live app ↗</span>
+              </a>
             </div>
             <div class="mac-title">Data Dashboard</div>
           </div>
